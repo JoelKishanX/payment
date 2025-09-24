@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaySecure - Premium Payment Gateway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #7c3aed;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--white);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Background Pattern */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, #f3f4f6 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Shine Effect */
+        @keyframes shine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background-size: 200% 100%;
+            animation: shine 2.5s infinite;
+        }
+
+        /* Premium Card */
+        .premium-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .premium-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Premium Button */
+        .premium-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            z-index: 1;
+        }
+
+        .premium-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background-size: 200% 100%;
+            animation: shine 2.5s infinite;
+            z-index: -1;
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .premium-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Premium Input */
+        .premium-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--light-gray);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 16px;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .premium-input:focus {
+            outline: none;
+            background: var(--white);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        /* Premium Header */
+        .premium-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        /* Stats Card */
+        .stats-card {
+            background: linear-gradient(135deg, var(--white), var(--light-gray));
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Elegant Table */
+        .elegant-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .elegant-table th {
+            background: var(--light-gray);
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(229, 231, 235, 0.5);
+        }
+
+        .elegant-table td {
+            padding: 20px 16px;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.3);
+            transition: var(--transition);
+        }
+
+        .elegant-table tr:hover td {
+            background: var(--light-gray);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-failed {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* Loading Spinner */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(79, 70, 229, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            height: 10px;
+            background: var(--light-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shine 2s infinite;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            min-width: 300px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast-error {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Support Card */
+        .support-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .support-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
+            transition: all 0.5s ease;
+        }
+
+        .support-card:hover::before {
+            top: -30%;
+            left: -30%;
+        }
+
+        .support-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .support-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--light-gray), var(--white));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 32px;
+            color: var(--primary);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .support-card:hover .support-icon {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* QR Container */
+        .qr-container {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qr-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 30%, rgba(79, 70, 229, 0.05) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            height: 300px;
+            position: relative;
+        }
+
+        /* Footer */
+        .premium-footer {
+            background: linear-gradient(135deg, var(--light-gray), var(--white));
+            border-top: 1px solid rgba(229, 231, 235, 0.5);
+            padding: 48px 0;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.5), transparent);
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .scale-in {
+            animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .premium-card {
+                margin-bottom: 24px;
+            }
+            
+            .stats-card {
+                margin-bottom: 16px;
+            }
+            
+            .support-card {
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Pattern -->
+    <div class="bg-pattern"></div>
+
+    <!-- Header -->
+    <header class="premium-header">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg pulse-animation">
+                        <i class="fas fa-bolt text-2xl text-white"></i>
+                    </div>
+                    <h1 class="serif text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+                        PaySecure
+                    </h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300 font-medium relative group">
+                        <span>Home</span>
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#transactions" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300 font-medium relative group">
+                        <span>Transactions</span>
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#stats" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300 font-medium relative group">
+                        <span>Analytics</span>
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#support" class="text-gray-600 hover:text-indigo-600 transition-colors duration-300 font-medium relative group">
+                        <span>Support</span>
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </nav>
+                <button class="md:hidden text-gray-600" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden bg-white border-t border-gray-200 shadow-lg">
+        <div class="px-4 py-3 space-y-3">
+            <a href="#home" class="block text-gray-600 hover:text-indigo-600 transition py-2">Home</a>
+            <a href="#transactions" class="block text-gray-600 hover:text-indigo-600 transition py-2">Transactions</a>
+            <a href="#stats" class="block text-gray-600 hover:text-indigo-600 transition py-2">Analytics</a>
+            <a href="#support" class="block text-gray-600 hover:text-indigo-600 transition py-2">Support</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Hero Section -->
+        <section id="home" class="mb-20">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="serif text-5xl md:text-6xl font-bold mb-6 text-gray-800">Premium Payment Gateway</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Secure, reliable, and elegant payment processing for your business</p>
+            </div>
+            
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+                <!-- QR Code Section -->
+                <div class="premium-card slide-in">
+                    <div class="text-center p-8">
+                        <div class="qr-container inline-block mb-8 float-animation">
+                            <div id="qrcode" class="flex justify-center mb-6"></div>
+                            <p class="text-gray-500 mb-4">Scan with any UPI app</p>
+                            <p id="qrAmount" class="text-xl font-semibold text-indigo-600">Amount: ₹0</p>
+                        </div>
+                        <button onclick="downloadQR()" class="premium-btn shine-effect">
+                            <i class="fas fa-download mr-2"></i>Download QR
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Payment Form Section -->
+                <div class="premium-card p-8 scale-in">
+                    <h3 class="serif text-3xl font-bold mb-8 text-gray-800">Initiate Payment</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Amount (₹)</label>
+                            <div class="relative">
+                                <input type="number" id="amount" placeholder="Enter amount" 
+                                       class="premium-input"
+                                       oninput="updateQRCode()">
+                                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Description</label>
+                            <div class="relative">
+                                <input type="text" id="description" value="BRIGHT NIGHT 2026" readonly
+                                       class="premium-input bg-gray-100 cursor-not-allowed">
+                                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="initiatePayment()" 
+                                class="w-full premium-btn shine-effect">
+                            <i class="fas fa-credit-card mr-2"></i>Initiate Payment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Status Modal -->
+        <div id="paymentModal" class="modal">
+            <div class="modal-content">
+                <div class="p-8">
+                    <div id="paymentStatus" class="text-center">
+                        <!-- Status content will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <section id="stats" class="mb-20">
+            <h2 class="serif text-4xl font-bold mb-12 text-center text-gray-800 fade-in">Payment Analytics</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="stats-card slide-in" style="animation-delay: 0.1s;">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">Total Transactions</p>
+                            <p id="totalTransactions" class="text-3xl font-bold text-gray-800">-</p>
+                        </div>
+                        <div class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-chart-line text-2xl text-indigo-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-card slide-in" style="animation-delay: 0.2s;">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">Successful</p>
+                            <p id="successfulTransactions" class="text-3xl font-bold text-gray-800">-</p>
+                        </div>
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-card slide-in" style="animation-delay: 0.3s;">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">Pending</p>
+                            <p id="pendingTransactions" class="text-3xl font-bold text-gray-800">-</p>
+                        </div>
+                        <div class="w-14 h-14 bg-yellow-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-clock text-2xl text-yellow-600"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-card slide-in" style="animation-delay: 0.4s;">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">Failed</p>
+                            <p id="failedTransactions" class="text-3xl font-bold text-gray-800">-</p>
+                        </div>
+                        <div class="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-times-circle text-2xl text-red-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="premium-card p-8 scale-in" style="animation-delay: 0.5s;">
+                    <h3 class="serif text-2xl font-bold mb-6 text-gray-800">Revenue Overview</h3>
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-gray-600">Total Revenue</span>
+                        <span class="text-3xl font-bold text-gray-800">₹<span id="totalRevenue">-</span></span>
+                    </div>
+                    <div class="progress-container mb-2">
+                        <div id="revenueProgress" class="progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-500">
+                        <span>₹0</span>
+                        <span>₹100,000</span>
+                    </div>
+                </div>
+                
+                <div class="chart-container scale-in" style="animation-delay: 0.6s;">
+                    <h3 class="serif text-2xl font-bold mb-6 text-gray-800">Transaction Trends</h3>
+                    <canvas id="transactionChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transaction History Section -->
+        <section id="transactions" class="mb-20">
+            <h2 class="serif text-4xl font-bold mb-12 text-center text-gray-800 fade-in">Transaction History</h2>
+            
+            <!-- Filters -->
+            <div class="premium-card p-6 mb-8 scale-in" style="animation-delay: 0.7s;">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Status Filter</label>
+                        <select id="statusFilter" onchange="filterTransactions()" 
+                                class="premium-input">
+                            <option value="all">All Transactions</option>
+                            <option value="success">Successful</option>
+                            <option value="pending">Pending</option>
+                            <option value="failed">Failed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">Start Date</label>
+                        <input type="date" id="startDateFilter" onchange="filterTransactions()"
+                               class="premium-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-medium mb-2">End Date</label>
+                        <input type="date" id="endDateFilter" onchange="filterTransactions()"
+                               class="premium-input">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Transactions Table -->
+            <div class="premium-card overflow-hidden scale-in" style="animation-delay: 0.8s;">
+                <div class="overflow-x-auto">
+                    <table class="elegant-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date & Time</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>UTR ID</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionTableBody">
+                            <!-- Transactions will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="noTransactions" class="hidden text-center py-16">
+                    <i class="fas fa-inbox text-5xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-500">No transactions found</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Section -->
+        <section id="support" class="mb-20">
+            <h2 class="serif text-4xl font-bold mb-12 text-center text-gray-800 fade-in">Support Center</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="support-card slide-in" style="animation-delay: 0.9s;">
+                    <div class="support-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800">24/7 Support</h3>
+                    <p class="text-gray-600 mb-4">Round-the-clock assistance</p>
+                    <p class="text-indigo-600 font-semibold">+91 8618505915</p>
+                </div>
+                
+                <div class="support-card slide-in" style="animation-delay: 1s;">
+                    <div class="support-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800">Email Support</h3>
+                    <p class="text-gray-600 mb-4">Get help via email</p>
+                    <p class="text-indigo-600 font-semibold">support@paysecure.com</p>
+                </div>
+                
+                <div class="support-card slide-in" style="animation-delay: 1.1s;">
+                    <div class="support-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800">Live Chat</h3>
+                    <p class="text-gray-600 mb-4">Instant support</p>
+                    <p class="text-indigo-600 font-semibold">Available Now</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="premium-footer">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <p class="text-gray-600">&copy; 2024 PaySecure. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-indigo-600 transition transform hover:scale-110">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-600 transition transform hover:scale-110">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-600 transition transform hover:scale-110">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-indigo-600 transition transform hover:scale-110">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle text-xl text-green-500"></i>
+        <span id="toastMessage" class="text-gray-700"></span>
+    </div>
+
+    <script>
+        // API base URL
+        const API_URL = 'http://localhost:5000/api';
+
+        // Initialize QR Code
+        let qrcode = null;
+        let transactionChart = null;
+
+        // Initialize QR code on page load
+        function initializeQRCode() {
+            const qrContainer = document.getElementById("qrcode");
+            qrContainer.innerHTML = ""; // Clear previous QR code
+            
+            const amount = document.getElementById('amount').value || '0';
+            const description = "BRIGHT NIGHT 2026"; // Fixed description
+            
+            // Create UPI URL with amount and description
+            const upiUrl = `upi://pay?pa=8618505915@fam&pn=PaySecure&am=${amount}&tn=${encodeURIComponent(description)}&cu=INR`;
+            
+            // Update amount display
+            document.getElementById('qrAmount').textContent = `Amount: ₹${amount}`;
+            
+            // Generate QR code
+            qrcode = new QRCode(qrContainer, {
+                text: upiUrl,
+                width: 200,
+                height: 200,
+                colorDark: "#4f46e5",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        // Update QR code when amount changes
+        function updateQRCode() {
+            initializeQRCode();
+        }
+
+        // Download QR Code
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                const amount = document.getElementById('amount').value || '0';
+                link.download = `bright-night-2026-${amount}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+                showToast('QR Code downloaded!');
+            } else {
+                showToast('Please enter an amount first', 'error');
+            }
+        }
+
+        // Initiate payment
+        async function initiatePayment() {
+            const amount = document.getElementById('amount').value;
+            const description = "BRIGHT NIGHT 2026"; // Fixed description
+
+            if (!amount || amount <= 0) {
+                showToast('Please enter a valid amount', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/transactions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: parseFloat(amount),
+                        description: description,
+                        upiId: '8618505915@fam'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const modal = document.getElementById('paymentModal');
+                    const statusDiv = document.getElementById('paymentStatus');
+                    
+                    modal.classList.add('active');
+                    
+                    // Show processing status
+                    statusDiv.innerHTML = `
+                        <div class="mb-6">
+                            <div class="loader mx-auto"></div>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Processing Payment...</h3>
+                        <p class="text-gray-600 mb-4">Please wait while we process your payment of ₹${amount}</p>
+                        <p class="text-gray-500 text-sm">Transaction ID: <span class="font-medium text-indigo-600">${data.transactionId}</span></p>
+                    `;
+
+                    // Check payment status every 2 seconds
+                    const checkStatus = setInterval(async () => {
+                        try {
+                            const statusResponse = await fetch(`${API_URL}/transactions/${data.transactionId}`);
+                            const transaction = await statusResponse.json();
+                            
+                            if (transaction.status !== 'pending') {
+                                clearInterval(checkStatus);
+                                
+                                if (transaction.status === 'success') {
+                                    // Success status
+                                    statusDiv.innerHTML = `
+                                        <div class="mb-6">
+                                            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                                                <i class="fas fa-check text-4xl text-green-600"></i>
+                                            </div>
+                                        </div>
+                                        <h3 class="text-2xl font-bold mb-4 text-green-600">Payment Successful!</h3>
+                                        <div class="bg-gray-50 rounded-xl p-6 mt-6 text-left space-y-3">
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-600">Transaction ID:</span>
+                                                <span class="font-medium text-indigo-600">${transaction.transactionId}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-600">UTR ID:</span>
+                                                <span class="font-medium text-green-600">${transaction.utrId}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-600">Amount:</span>
+                                                <span class="font-semibold">₹${transaction.amount}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-600">Description:</span>
+                                                <span>${transaction.description}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-600">Date:</span>
+                                                <span>${new Date(transaction.paymentDate).toLocaleString()}</span>
+                                            </div>
+                                        </div>
+                                        <button onclick="closeModal()" class="premium-btn mt-8 w-full">
+                                            Close
+                                        </button>
+                                    `;
+                                    
+                                    // Refresh transaction list
+                                    updateTransactionTable();
+                                    updateStats();
+                                } else {
+                                    // Failed status
+                                    statusDiv.innerHTML = `
+                                        <div class="mb-6">
+                                            <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto">
+                                                <i class="fas fa-times text-4xl text-red-600"></i>
+                                            </div>
+                                        </div>
+                                        <h3 class="text-2xl font-bold mb-4 text-red-600">Payment Failed</h3>
+                                        <p class="text-gray-600 mb-6">We couldn't process your payment. Please try again.</p>
+                                        <button onclick="closeModal()" class="premium-btn">
+                                            Try Again
+                                        </button>
+                                    `;
+                                    
+                                    // Refresh transaction list
+                                    updateTransactionTable();
+                                    updateStats();
+                                }
+                            }
+                        } catch (err) {
+                            console.error('Error checking payment status:', err);
+                        }
+                    }, 2000);
+                } else {
+                    showToast(data.message || 'Failed to initiate payment', 'error');
+                }
+            } catch (err) {
+                console.error('Error initiating payment:', err);
+                showToast('Network error. Please try again.', 'error');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('paymentModal');
+            modal.classList.remove('active');
+            
+            setTimeout(() => {
+                document.getElementById('amount').value = '';
+                initializeQRCode(); // Reset QR code
+            }, 300);
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.className = `toast ${type === 'error' ? 'toast-error' : 'toast-success'}`;
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Update transaction table
+        async function updateTransactionTable() {
+            try {
+                const statusFilter = document.getElementById('statusFilter').value;
+                const startDateFilter = document.getElementById('startDateFilter').value;
+                const endDateFilter = document.getElementById('endDateFilter').value;
+                
+                let url = `${API_URL}/transactions?`;
+                const params = new URLSearchParams();
+                
+                if (statusFilter !== 'all') {
+                    params.append('status', statusFilter);
+                }
+                
+                if (startDateFilter) {
+                    params.append('startDate', startDateFilter);
+                }
+                
+                if (endDateFilter) {
+                    params.append('endDate', endDateFilter);
+                }
+                
+                url += params.toString();
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                const transactions = data.transactions;
+                
+                const tbody = document.getElementById('transactionTableBody');
+                const noTransactions = document.getElementById('noTransactions');
+                
+                if (transactions.length === 0) {
+                    tbody.innerHTML = '';
+                    noTransactions.classList.remove('hidden');
+                    return;
+                }
+                
+                noTransactions.classList.add('hidden');
+                tbody.innerHTML = transactions.map(transaction => `
+                    <tr>
+                        <td class="font-medium text-indigo-600">${transaction.transactionId}</td>
+                        <td class="text-gray-600">${new Date(transaction.date).toLocaleString()}</td>
+                        <td class="font-semibold">₹${transaction.amount}</td>
+                        <td>
+                            <span class="status-badge status-${transaction.status}">
+                                ${transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
+                            </span>
+                        </td>
+                        <td class="text-gray-600 font-mono">${transaction.utrId || '-'}</td>
+                        <td>
+                            <button onclick="viewTransaction('${transaction.transactionId}')" class="text-indigo-600 hover:text-indigo-800 transition">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error('Error updating transaction table:', err);
+            }
+        }
+
+        // View transaction details
+        async function viewTransaction(transactionId) {
+            try {
+                const response = await fetch(`${API_URL}/transactions/${transactionId}`);
+                const transaction = await response.json();
+                
+                if (response.ok) {
+                    const modal = document.getElementById('paymentModal');
+                    const statusDiv = document.getElementById('paymentStatus');
+                    
+                    modal.classList.add('active');
+                    
+                    statusDiv.innerHTML = `
+                        <div class="text-left">
+                            <h3 class="text-2xl font-bold mb-6 text-gray-800">Transaction Details</h3>
+                            <div class="bg-gray-50 rounded-xl p-6 space-y-4">
+                                <div class="flex justify-between pb-3 border-b border-gray-200">
+                                    <span class="text-gray-600">Transaction ID:</span>
+                                    <span class="font-medium text-indigo-600">${transaction.transactionId}</span>
+                                </div>
+                                <div class="flex justify-between pb-3 border-b border-gray-200">
+                                    <span class="text-gray-600">UTR ID:</span>
+                                    <span class="font-medium text-green-600">${transaction.utrId || '-'}</span>
+                                </div>
+                                <div class="flex justify-between pb-3 border-b border-gray-200">
+                                    <span class="text-gray-600">Amount:</span>
+                                    <span class="font-semibold">₹${transaction.amount}</span>
+                                </div>
+                                <div class="flex justify-between pb-3 border-b border-gray-200">
+                                    <span class="text-gray-600">Description:</span>
+                                    <span>${transaction.description}</span>
+                                </div>
+                                <div class="flex justify-between pb-3 border-b border-gray-200">
+                                    <span class="text-gray-600">Status:</span>
+                                    <span class="status-badge status-${transaction.status}">
+                                        ${transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
+                                    </span>
+                                </div>
+                                <div class="flex justify-between pb-3 border-b border-gray-200">
+                                    <span class="text-gray-600">Date & Time:</span>
+                                    <span>${new Date(transaction.date).toLocaleString()}</span>
+                                </div>
+                                ${transaction.paymentDate ? `
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Payment Date & Time:</span>
+                                    <span>${new Date(transaction.paymentDate).toLocaleString()}</span>
+                                </div>
+                                ` : ''}
+                            </div>
+                            <button onclick="closeModal()" class="premium-btn mt-8 w-full">
+                                Close
+                            </button>
+                        </div>
+                    `;
+                    
+                    modal.classList.remove('hidden');
+                } else {
+                    showToast('Transaction not found', 'error');
+                }
+            } catch (err) {
+                console.error('Error viewing transaction:', err);
+                showToast('Error loading transaction details', 'error');
+            }
+        }
+
+        // Filter transactions
+        function filterTransactions() {
+            updateTransactionTable();
+        }
+
+        // Update statistics
+        async function updateStats() {
+            try {
+                const response = await fetch(`${API_URL}/stats`);
+                const stats = await response.json();
+                
+                // Animate number changes
+                animateValue('totalTransactions', stats.totalTransactions);
+                animateValue('successfulTransactions', stats.successfulTransactions);
+                animateValue('pendingTransactions', stats.pendingTransactions);
+                animateValue('failedTransactions', stats.failedTransactions);
+                animateValue('totalRevenue', stats.totalAmount.toFixed(2));
+                
+                // Update progress bar
+                const maxRevenue = 100000; // Set a max revenue for the progress bar
+                const progressPercentage = Math.min(100, (stats.totalAmount / maxRevenue) * 100);
+                document.getElementById('revenueProgress').style.width = `${progressPercentage}%`;
+                
+                // Update chart
+                updateTransactionChart(stats.dailyTransactions);
+            } catch (err) {
+                console.error('Error updating statistics:', err);
+            }
+        }
+
+        // Animate value changes
+        function animateValue(id, end) {
+            const element = document.getElementById(id);
+            const start = parseFloat(element.textContent) || 0;
+            const duration = 1000;
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = start + (end - start) * progress;
+                
+                if (id === 'totalRevenue') {
+                    element.textContent = current.toFixed(2);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        // Update transaction chart
+        function updateTransactionChart(dailyData) {
+            const ctx = document.getElementById('transactionChart').getContext('2d');
+            
+            if (transactionChart) {
+                transactionChart.destroy();
+            }
+            
+            const labels = dailyData.map(d => d._id);
+            const amounts = dailyData.map(d => d.amount);
+            
+            transactionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Daily Revenue',
+                        data: amounts,
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#4f46e5',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'white',
+                            titleColor: '#1f2937',
+                            bodyColor: '#6b7280',
+                            borderColor: '#e5e7eb',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return '₹' + context.parsed.y;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: '#f3f4f6',
+                                borderColor: '#e5e7eb'
+                            },
+                            ticks: {
+                                color: '#6b7280'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#f3f4f6',
+                                borderColor: '#e5e7eb'
+                            },
+                            ticks: {
+                                color: '#6b7280',
+                                callback: function(value) {
+                                    return '₹' + value;
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeQRCode();
+            updateTransactionTable();
+            updateStats();
+        });
+    </script>
+</body>
+</html>
